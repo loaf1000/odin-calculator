@@ -1,3 +1,6 @@
+body {
+    background-color: black;
+}
 #calculator {
     display:flex;
     border: 1px solid darkgreen;
@@ -21,7 +24,7 @@
     background-color: lightgray;
 }
 
-#buttons, #extra-buttons{
+#buttons, #extra-buttons {
     display: flex;
     flex-flow: wrap;
     gap: 10px;
@@ -29,9 +32,17 @@
     align-items: center;
 }
 
+#extra-buttons {
+    align-content: flex-end;
+}
+
 .number, .operator, .clear-button {
     font-size: 24px;
     width: 125px;
     height: 60px;
     border-radius: 6px;
+}
+
+.operator {
+    background-color: rgb(173, 173, 173);
 }
