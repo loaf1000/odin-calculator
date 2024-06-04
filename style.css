@@ -1,1 +1,37 @@
-/*styles will go here at some point */
+#calculator {
+    display:flex;
+    border: 1px solid darkgreen;
+    border-radius: 6px;
+    flex-flow: column wrap;
+    align-content: center;
+    padding: 5px;
+    width: 550px;
+    height: 450px;
+    gap: 10px;
+    background-color: darkgreen;
+}
+
+#display {
+    border: 3px solid gray;
+    border-radius: 4px;
+    font-size: 32px;
+    text-align: right;
+    padding: 10px;
+    margin: 5px;
+    background-color: lightgray;
+}
+
+#buttons, #extra-buttons{
+    display: flex;
+    flex-flow: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.number, .operator, .clear-button {
+    font-size: 24px;
+    width: 125px;
+    height: 60px;
+    border-radius: 6px;
+}

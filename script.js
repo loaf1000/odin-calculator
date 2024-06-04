@@ -17,7 +17,7 @@ function divide (num1, num2)
 {
     if (num2 == 0)
         {
-            return "error";
+            return "error can't divide by 0";
         }
 
     return num1/num2;
