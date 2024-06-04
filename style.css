@@ -32,10 +32,6 @@ body {
     align-items: center;
 }
 
-#extra-buttons {
-    align-content: flex-end;
-}
-
 .number, .operator, .clear-button {
     font-size: 24px;
     width: 125px;
