@@ -89,11 +89,18 @@ function setupOperatorButtons ()
         if (button.innerText == "=" )
         {
             button.addEventListener("click", () => {
-                if (!isNaN(number1))
+                
+
+                if (!isNaN(number1) && operator !== '')
                     {
                         const index = display.innerText.indexOf(operator);
                         number2 = Number(display.innerText.slice(index + 1));
+                        if (!isNaN(number2))
+                        {
                         const total = operate(number1, number2, operator);
+                        number1 = total;
+                        number2 = " ";
+                        operator = "";
                         display.innerText = total;
                         operatorUsed = false;
                         if(!isNaN(total))
@@ -104,6 +111,9 @@ function setupOperatorButtons ()
                         {
                             decimalUsed = false;
                         }
+
+                        }
+                        
                         
                     }
             });
