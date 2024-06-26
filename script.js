@@ -7,6 +7,7 @@ let operator;
 let number1;
 let number2;
 let operatorUsed = false;
+let decimalUsed = false;
 
 
 function add(num1, num2)
@@ -28,7 +29,7 @@ function divide (num1, num2)
 {
     if (num2 == 0)
         {
-            return "error can't divide by 0";
+            return "error can't divide by 0 - click CE to continue";
         }
 
     return num1/num2;
@@ -38,57 +39,155 @@ function operate (num1, num2, operator)
 {
     switch(operator) {
         case "+":
-            return add(num1, num2);
-            break;
+            return add(num1, num2).toPrecision(9)/1;
         case "-":
-            return subtract(num1, num2);
-            break;
-        case "*":
-            return multiply(num1, num2);
-            break;
+            return subtract(num1, num2).toPrecision(9)/1;
+        case "x":
+            return multiply(num1, num2).toPrecision(9)/1;
         case "÷":
-            return divide(num1, num2);
-            break;
+            const total = divide(num1, num2);
+            if (isNaN(total))
+            {
+                return divide(num1, num2);
+            }
+            else
+            {
+                return total.toPrecision(9)/1;
+            }
     }
 
 }
 
-function setup()
+function setupNumberButtons ()
 {
     numberButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            display.innerText += button.innerText;
-        });
-    });
-    operatorButtons.forEach((button) => {
-        if (button.innerText == "=" )
+        if (button.innerText == ".")
             {
-                button.addEventListener("click", () => {
-                    if (number1 > 0 || !isNaN(number1))
-                        {
-                            let index = display.innerText.indexOf(operator);
-                            number2 = Number(display.innerText.slice(index + 1));
-                            display.innerText = operate(number1, number2, operator);
-                            operatorUsed = false;
-                        }
-                });
+                    button.addEventListener("click", () => {
+                        if (!decimalUsed)
+                            {
+                                decimalUsed = true;
+                                display.innerText += button.innerText;
+                            }
+                        
+                    });
             }
         else
         {
             button.addEventListener("click", () => {
-                if (!operatorUsed && display.innerText !="")
+                display.innerText += button.innerText;
+            });
+        }
+    });
+}
+
+
+function setupOperatorButtons () 
+
+{
+    operatorButtons.forEach((button) => {
+        if (button.innerText == "=" )
+        {
+            button.addEventListener("click", () => {
+                if (!isNaN(number1))
                     {
-                        number1 = Number(display.innerText);
-                        display.innerText += button.innerText;
-                        operator = button.innerText;
-                        operatorUsed = true;
+                        const index = display.innerText.indexOf(operator);
+                        number2 = Number(display.innerText.slice(index + 1));
+                        const total = operate(number1, number2, operator);
+                        display.innerText = total;
+                        operatorUsed = false;
+                        if(!isNaN(total))
+                        {
+                            Number.isInteger(total) ? decimalUsed = false: decimalUsed = true;
+                        }
+                        else
+                        {
+                            decimalUsed = false;
+                        }
+                        
                     }
             });
         }
+        else
+        {
+            button.addEventListener("click", () => {
 
+                if (!operatorUsed && display.innerText !="")
+                    {
+                        operator = button.innerText;
+                        number1 = Number(display.innerText);
+                        display.innerText += button.innerText;
+                        decimalUsed = false;
+                    }
+                else if (display.innerText !="")
+                    {
+                        let index = display.innerText.indexOf(operator);
+                        number2 = Number(display.innerText.slice(index + 1))
+                        number1 = operate(number1, number2, operator);
+                        operator = button.innerText;
 
+                        display.innerText = number1.toString() + operator;
+                        if(!isNaN(number1))
+                            {
+                                Number.isInteger(number1) ? decimalUsed = false: decimalUsed = true;
+                            }
+                            else
+                            {
+                                decimalUsed = false;
+                            }
+                    }
+                operatorUsed = true;
+            });
+        }
     });
-    
+
+}
+
+function setupClearButtons()
+{
+    clearButtons.forEach((button) => {
+        if (button.innerText == "C")
+            {
+                //clear
+                button.addEventListener("click", () => {
+                    const symbolToClear = display.innerText.at(-1);
+                    if (symbolToClear == "+" || symbolToClear == "-" || symbolToClear == "x" || symbolToClear == "÷")
+                        {
+                            operatorUsed = false;
+                        }
+                    else if (symbolToClear = ".")
+                        {
+                            decimalUsed = false;
+                        }
+                    display.innerText = display.innerText.slice(0, display.innerText.length-1);
+
+                })
+            }
+        else
+        {
+            {
+                //clear all
+                button.addEventListener("click", () => {
+                    display.innerText = "";
+                    number1 = "";
+                    number2 = "";
+                    operator = "";
+                    operatorUsed = false;
+                    decimalUsed = false;
+
+                })
+
+            }
+
+        }
+    });
+}
+
+function setup()
+{
+    setupNumberButtons();
+    setupOperatorButtons();
+    setupClearButtons();
 }
 
 setup();
